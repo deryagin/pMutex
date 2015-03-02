@@ -6,13 +6,13 @@ class ProcessSerializer
     protected $lockProvider = null;
 
     /** @var \Closure - runs definded reaction if getting lock was failed */
-   	protected $failCallback = null;
+    protected $failCallback = null;
 
-    /** @var float - default waitSeconds time in seconds  */
-   	protected $waitSeconds = 10.0;
+    /** @var float - default waitSeconds time in seconds */
+    protected $waitSeconds = 10.0;
 
-	/** @var integer - default halt time in microseconds */
-	protected $sleepMicrosec = 1;
+    /** @var integer - default halt time in microseconds */
+    protected $sleepMicrosec = 1;
 
     public function __construct(ILockProvider $lockProvider)
     {
@@ -48,11 +48,11 @@ class ProcessSerializer
         return $this;
     }
 
-	public function setWaitSeconds($waitSeconds)
-	{
+    public function setWaitSeconds($waitSeconds)
+    {
         $this->waitSeconds = $waitSeconds;
         return $this;
-	}
+    }
 
     public function setSleepMicrosec($sleepMicrosec)
     {
@@ -60,13 +60,12 @@ class ProcessSerializer
         return $this;
     }
 
-	protected function notifyAboutFail()
-	{
+    protected function notifyAboutFail()
+    {
         if ($this->failCallback)
         {
             return $this->failCallback();
         }
         throw new \Exception("Unable to get access to shared resource with lockId = " . $this->lockProvider->getLockId());
-	}
+    }
 }
-
