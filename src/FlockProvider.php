@@ -27,7 +27,7 @@ class FlockProvider implements ILockProvider
 
 	public function acquire($isNeedWait = false)
 	{
-		$lockType = ($isNeedWait ? LOCK_EX : LOCK_EX | LOCK_NB);
+		$lockType = ($isNeedWait ? LOCK_EX : (LOCK_EX | LOCK_NB));
 		return flock($this->lockFile, $lockType);
 	}
 
@@ -46,4 +46,3 @@ class FlockProvider implements ILockProvider
 		return $this->filePath;
 	}
 }
-

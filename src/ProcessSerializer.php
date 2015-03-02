@@ -5,27 +5,28 @@ class ProcessSerializer
     /** @var ILockProvider */
     protected $lockProvider = null;
 
+    /** @var \Closure - runs definded reaction if getting lock was failed */
+   	protected $failCallback = null;
+
+    /** @var float - default waitSeconds time in seconds  */
+   	protected $waitSeconds = 10.0;
+
 	/** @var integer - default halt time in microseconds */
 	protected $sleepMicrosec = 1;
 
-	/** @var float - default waitSeconds time in seconds  */
-	protected $waitSeconds = 10.0;
-
-	/** @var \Closure -  */
-	protected $failCallback = null;
-
-    public function __construct(ILockProvider $lockProvider, $sleepMicrosec = 1)
+    public function __construct(ILockProvider $lockProvider)
     {
         $this->lockProvider = $lockProvider;
-	    $this->sleepMicrosec = $sleepMicrosec;
     }
 
-    public function runAction(\Closure $action, $waiting = 10.0)
+    public function runAction(\Closure $action)
     {
         $startTime = microtime(true);
-        while (true) {
+        while (true)
+        {
             $isLocked = $this->lockProvider->acquire($isExclusive = true);
-            if ($isLocked) {
+            if ($isLocked)
+            {
                 $result = $action();
                 $this->lockProvider->release();
                 return $result;
@@ -34,20 +35,38 @@ class ProcessSerializer
             usleep($this->sleepMicrosec);
 
             $pastInterval = microtime(true) - $startTime;
-            if ($waiting < $pastInterval) {
-                throw new \Exception("waiting time was expired. Unable to get access to shared resource with id = " . $this->lockProvider->getId());
+            if ($this->waitSeconds < $pastInterval)
+            {
+                return $this->notifyAboutFail();
             }
         }
     }
 
-	public function setWaitingTime()
-	{
+    public function setFailCallback(\Closure $failCallback)
+    {
+        $this->failCallback = $failCallback;
+        return $this;
+    }
 
+	public function setWaitSeconds($waitSeconds)
+	{
+        $this->waitSeconds = $waitSeconds;
+        return $this;
 	}
 
-	public function setFailCallback(\Closure $failAction)
-	{
+    public function setSleepMicrosec($sleepMicrosec)
+    {
+        $this->sleepMicrosec = $sleepMicrosec;
+        return $this;
+    }
 
+	protected function notifyAboutFail()
+	{
+        if ($this->failCallback)
+        {
+            return $this->failCallback();
+        }
+        throw new \Exception("Unable to get access to shared resource with lockId = " . $this->lockProvider->getLockId());
 	}
 }
 

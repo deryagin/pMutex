@@ -11,6 +11,11 @@ class ProcessSerializerTest extends \PHPUnit_Framework_TestCase
 		$this->serializer = new ProcessSerializer($flockProvider);
 	}
 
+	public function test_setMethod_InjectValue_ReturnsThis()
+	{
+		$this->markTestIncomplete();
+	}
+
 	public function test_runAction_LockAcquired_RunsAction()
 	{
 		$this->markTestSkipped();
@@ -36,4 +41,3 @@ class ProcessSerializerTest extends \PHPUnit_Framework_TestCase
 		$this->markTestSkipped();
 	}
 }
-
