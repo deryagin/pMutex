@@ -66,6 +66,6 @@ class ProcessSerializer
         {
             return $this->failCallback();
         }
-        throw new \Exception("Unable to get access to shared resource with lockId = " . $this->lockProvider->getLockId());
+        throw new MutexException($this->lockProvider->getLockId());
     }
 }
