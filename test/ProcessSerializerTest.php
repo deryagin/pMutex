@@ -18,26 +18,26 @@ class ProcessSerializerTest extends \PHPUnit_Framework_TestCase
 
     public function test_runAction_LockAcquired_RunsAction()
     {
-        $this->markTestSkipped();
+        $this->markTestIncomplete();
     }
 
     public function test_runAction_ActionDone_ReleasesLock()
     {
-        $this->markTestSkipped();
+        $this->markTestIncomplete();
     }
 
     public function test_runAction_ActionDone_ReturnsResult()
     {
-        $this->markTestSkipped();
+        $this->markTestIncomplete();
     }
 
     public function test_runAction_LockRefused_WaitsUntilSeconds()
     {
-        $this->markTestSkipped();
+        $this->markTestIncomplete();
     }
 
     public function test_runAction_WaitingFinished_ThrowsException()
     {
-        $this->markTestSkipped();
+        $this->markTestIncomplete();
     }
 }
