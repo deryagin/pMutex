@@ -1,8 +1,13 @@
 # pMutex
-A simple concurrent processes serializer using PHP [flock()](http://php.net/manual/en/function.flock.php).
+
+**A simple concurrent processes serializer using PHP [flock()](http://php.net/manual/en/function.flock.php).**
+
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/deryagin/pMutex.svg?branch=master)](https://travis-ci.org/deryagin/pMutex)
 
 
-## USAGE
+### Usage
+
 Dafault case:
 ```php
     use pMutex\FlockProvider;
@@ -10,7 +15,6 @@ Dafault case:
 
     $lockId = 'ClassName::getAutoincrement()';
     $lockProvider = new FlockProvider($lockId);
-
     $processSerializer = new ProcessSerializer($lockProvider);
     $result = $processSerializer->runActoin(function() {
         // critical code
@@ -38,24 +42,26 @@ Setup case:
 ```
 
 
-## STRUCTURE
+### Structure
+
 ```sh
-pMutex
-├── src
-│   ├── FlockProvider.php
-│   ├── ILockProvider.php
-│   ├── MutexException.php
-│   └── ProcessSerializer.php
-├── composer.json
-├── phpunit.xml
-├── README.md
-└── LICENSE
+    pMutex
+    ├── src
+    │   ├── FlockProvider.php
+    │   ├── ILockProvider.php
+    │   ├── MutexException.php
+    │   └── ProcessSerializer.php
+    ├── composer.json
+    ├── phpunit.xml
+    ├── README.md
+    └── LICENSE
 ```
 
 
-## COMPOSER
+### Composer
+
 ```json
-"require": {
-    "deryagin/pMutex": "master"
-}
+    "require": {
+        "deryagin/pMutex": "master"
+    }
 ```
