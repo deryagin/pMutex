@@ -6,6 +6,17 @@
 [![Build Status](https://travis-ci.org/deryagin/pMutex.svg?branch=master)](https://travis-ci.org/deryagin/pMutex)
 
 
+### Caution
+> **Warning** On some operating systems **flock()** is implemented at the process level.
+> When using a multithreaded server API like ISAPI you may not be able to rely on **flock()**
+> to protect files against other PHP scripts running in parallel threads of the same server instance!
+
+There is another problem with NFS. See this [comment](http://php.net/manual/en/function.flock.php#82521).
+Also **flock()** uses a local server resource -- the file system. This may be a problem when you will need to resolve
+a scaling problem. That's why this project containts `src/ILockProvider.php` interface. Use it for a type hinting
+instead of `src/FlockProvider.php`
+
+
 ### Usage
 
 Dafault case:
